@@ -1,0 +1,21 @@
+/* CSS Stylesheet */
+
+@import url('https://fonts.googleapis.com/css?family=Open+Sans&display=swap');
+
+body {
+  font-family: "Open Sans", Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.wrapper {
+  margin: 60px auto;
+  padding: 0 15px;
+  max-width: 600px;
+}
+
+#redbox {
+  width: 100px;
+  height: 100px;
+  background-color: red;
+}
