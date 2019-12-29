@@ -47,6 +47,7 @@ function inView(elem) {
   console.log(window.scrollY);
 }
 
+//Helpers
 function addClass(elem, myClass) {
   if (elem.classList) {
     elem.classList.add(myClass);
