@@ -6,8 +6,7 @@ function run() {
   var redBox = document.getElementById("redbox");
   
   checkCurrentWindow();
-  window.addEventListener("resize", checkCurrentWindow, false);
-  window.addEventListener("scroll", checkCurrentWindow, false);
+  inView(redBox);  
   window.addEventListener("scroll", function(){animateElem(redBox);}, false);
   window.addEventListener("scroll", function(){inView(redBox);}, false);
 }
@@ -41,6 +40,16 @@ function inView(elem) {
     curr = window.innerHeight + document.documentElement.scrollTop;
   }
   
+  if (curr > elemPos) {
+    addClass(elem, "active");
+    var evt = createNewEvent("inview");
+    elem.dispatchEvent(evt);
+  }
+  else {
+    removeClass(elem, "active");
+  }
+  
+  console.log("--");
   console.log(elemPos);
   console.log(elemH);
   console.log(curr);
@@ -73,4 +82,19 @@ function createNewEvent(evtName) {
   }
   
   return evt;
+}
+
+function removeClass(elem, myClass) {
+  if (elem.classList) {
+    elem.classList.remove(myClass);
+  }
+  else {
+    var arr = elem.className.split(" ");
+    var ind = arr.indexOf(myClass);
+    
+    if (ind >= 0) {
+      arr.splice(ind, 1);
+      elem.className = arr.join(" ");
+    }
+  }
 }
