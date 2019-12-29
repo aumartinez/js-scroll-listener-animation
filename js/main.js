@@ -6,7 +6,9 @@ function run() {
   var redBox = document.getElementById("redbox");
   
   checkCurrentWindow();
-  inView(redBox);  
+  inView(redBox);
+  redBox.addEventListener("inview", activeState, false);
+  redBox.addEventListener("outofview", inactiveState, false);
   window.addEventListener("scroll", function(){animateElem(redBox);}, false);
   window.addEventListener("scroll", function(){inView(redBox);}, false);
 }
@@ -46,9 +48,9 @@ function inView(elem) {
     elem.dispatchEvent(evt);
   }
   else {
-    removeClass(elem, "active");
+    var evt = createNewEvent("outofview");
+    elem.dispatchEvent(evt);
   }
-  
   console.log("--");
   console.log(elemPos);
   console.log(elemH);
@@ -97,4 +99,18 @@ function removeClass(elem, myClass) {
       elem.className = arr.join(" ");
     }
   }
+}
+
+function activeState(evt) {
+  var elem = evt.currentTarget;
+  var myClass = "active";
+  
+  return addClass(elem, myClass);
+}
+
+function inactiveState(evt) {
+  var elem = evt. currentTarget;
+  var myClass = "active";
+  
+  return removeClass(elem, myClass);
 }
