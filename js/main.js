@@ -4,12 +4,12 @@ window.addEventListener("load", run, false);
 
 function run() {
   var redBox = document.getElementById("redbox");
-  
+    
   checkCurrentWindow();
   inView(redBox);
   redBox.addEventListener("inview", activeState, false);
-  redBox.addEventListener("outofview", inactiveState, false);
-  window.addEventListener("scroll", function(){animateElem(redBox);}, false);
+  redBox.addEventListener("inview", animateElem, false);
+  redBox.addEventListener("outofview", inactiveState, false);  
   window.addEventListener("scroll", function(){inView(redBox);}, false);
 }
 
@@ -24,8 +24,31 @@ function checkCurrentWindow() {
   }
 }
 
-function animateElem(elem) {
-  //console.log(elem);
+function animateElem(evt) {
+  var scrollDir;
+  var elem = evt.currentTarget;
+  var leftPx = 0;
+  
+  //Detect scrolling direction
+  var scrollPos = window.pageYOffset || document.documentElement.scrollTop;
+    
+  window.addEventListener("scroll", function() {
+    var curr = window.pageYOffset || document.documentElement.scrollTop;
+    
+    if ((curr - scrollPos) <= 0) {
+      scrollDir = "up";
+      leftPx -= 5;
+    }
+    else if ((curr - scrollPos) >= 0) {
+      scrollDir = "down";
+      leftPx += 5;
+    }
+    
+    elem.style.transform = "translateX(" + leftPx + "px)";
+    scrollPos = curr;    
+    
+  }, false);
+  
 }
 
 function inView(elem) {
@@ -43,7 +66,18 @@ function inView(elem) {
   }
   
   if (curr > elemPos) {
-    addClass(elem, "active");
+    //Elem is in the current view
+    addClass(elem, "active"); 
+    elemPos = elemPos + elemH;
+    
+    if (window.scrollY) {
+      curr = window.scrollY;
+    }
+    else {
+      curr = document.documentElement.scrollTop;
+    }
+  }
+  if (elemPos > curr) {
     var evt = createNewEvent("inview");
     elem.dispatchEvent(evt);
   }
@@ -51,11 +85,7 @@ function inView(elem) {
     var evt = createNewEvent("outofview");
     elem.dispatchEvent(evt);
   }
-  console.log("--");
-  console.log(elemPos);
-  console.log(elemH);
-  console.log(curr);
-  console.log(window.scrollY);
+  
 }
 
 //Helpers
@@ -104,7 +134,7 @@ function removeClass(elem, myClass) {
 function activeState(evt) {
   var elem = evt.currentTarget;
   var myClass = "active";
-  
+   
   return addClass(elem, myClass);
 }
 
