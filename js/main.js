@@ -24,12 +24,12 @@ function animateElem(evt) {
     
   if ((curr - scrollPos) <= 0) {
     scrollDir = "up";
-    curr == 0 ? boxPos = 0 : boxPos -= 5;
-    boxPos > 0 ? boxPos -= 5 : boxPos = 0;      
+    curr == 0 ? boxPos = 0 : boxPos -= 20;
+    boxPos > 0 ? boxPos -= 20 : boxPos = 0;      
   }
   else if ((curr - scrollPos) >= 0) {
     scrollDir = "down";
-    boxPos += 5;
+    boxPos += 20;
   }
    
   elem.style.transform = "translateX(" + boxPos + "px)";
