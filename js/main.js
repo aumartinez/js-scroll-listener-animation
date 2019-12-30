@@ -38,13 +38,16 @@ function animateElem(evt) {
     if ((curr - scrollPos) <= 0) {
       scrollDir = "up";
       leftPx -= 5;
+      elem.style.transform = "translatex(" + leftPx + "px)";
     }
     else if ((curr - scrollPos) >= 0) {
       scrollDir = "down";
       leftPx += 5;
+      elem.style.transform = "translatex(" + leftPx + "px)";
     }
     
-    elem.style.transform = "translateX(" + leftPx + "px)";
+    console.log(leftPx);
+    console.log(scrollDir);
     scrollPos = curr;    
     
   }, false);
