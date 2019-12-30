@@ -11,12 +11,12 @@ function run() {
   
   inView(redBox);
   redBox.addEventListener("inview", activeState, false);
-  redBox.addEventListener("inview", animateElem, false);
+  redBox.addEventListener("inview", animateElemToLeft, false);
   redBox.addEventListener("outofview", inactiveState, false);  
   window.addEventListener("scroll", function(){inView(redBox);}, false);
 }
 
-function animateElem(evt) {
+function animateElemToLeft(evt) {
   var elem = evt.currentTarget;  
   var scrollDir;  
   var bodyWidth = document.body.getBoundingClientRect().width;  
