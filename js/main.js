@@ -33,6 +33,10 @@ function animateElemToLeft(evt) {
     scrollDir = "down";
     boxPos += 20;
   }
+  
+  if (boxPos > bodyWidth) {
+    boxPos = bodyWidth;
+  }
    
   elem.style.transform = "translateX(" + boxPos + "px)";
   scrollPos = curr;  
