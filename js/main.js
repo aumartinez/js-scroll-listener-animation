@@ -55,12 +55,7 @@ function inView(elem) {
     addClass(elem, "active"); 
     elemPos = elemPos + elemH;
     
-    if (window.scrollY) {
-      curr = window.scrollY;
-    }
-    else {
-      curr = document.documentElement.scrollTop;
-    }
+    curr = window.scrollY || document.documentElement.scrollTop;
   }
   if (elemPos > curr) {
     var evt = createNewEvent("inview");
