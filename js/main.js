@@ -1,4 +1,6 @@
 //JavaScript
+
+//Initial states
 var boxPos = 0;
 var scrollPos = window.pageYOffset || document.documentElement.scrollTop;
 
