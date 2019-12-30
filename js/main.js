@@ -1,9 +1,9 @@
 //JavaScript
-
+var boxPos = 0;
 window.addEventListener("load", run, false);
 
 function run() {
-  var redBox = document.getElementById("redbox");
+  var redBox = document.getElementById("redbox");  
     
   checkCurrentWindow();
   inView(redBox);
@@ -25,10 +25,9 @@ function checkCurrentWindow() {
 }
 
 function animateElem(evt) {
+  var elem = evt.currentTarget;  
   var scrollDir;
-  var elem = evt.currentTarget;
-  var leftPx = 0;
-  
+      
   //Detect scrolling direction
   var scrollPos = window.pageYOffset || document.documentElement.scrollTop;
     
@@ -37,18 +36,17 @@ function animateElem(evt) {
     
     if ((curr - scrollPos) <= 0) {
       scrollDir = "up";
-      leftPx -= 5;
-      elem.style.transform = "translateX(" + leftPx + "px)";
+      boxPos > 0 ? boxPos -= 1 : boxPos = 0;      
+      elem.style.transform = "translateX(" + boxPos + "px)";
     }
     else if ((curr - scrollPos) >= 0) {
-      scrollDir = "down";
-      leftPx += 5;
-      elem.style.transform = "translateX(" + leftPx + "px)";
+      scrollDir = "down";      
+      boxPos += 1;          
+      elem.style.transform = "translateX(" + boxPos + "px)";      
     }
-    
-    console.log(leftPx);
-    console.log(scrollDir);
-    scrollPos = curr;    
+
+    scrollPos = curr;
+    console.log(boxPos);
     
   }, false);
   
