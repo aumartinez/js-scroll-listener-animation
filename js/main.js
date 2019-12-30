@@ -1,11 +1,12 @@
 //JavaScript
 var boxPos = 0;
+var scrollPos = window.pageYOffset || document.documentElement.scrollTop;
+
 window.addEventListener("load", run, false);
 
-function run() {
-  var redBox = document.getElementById("redbox");  
-    
-  checkCurrentWindow();
+function run() {          
+  var redBox = document.getElementById("redbox"); 
+  
   inView(redBox);
   redBox.addEventListener("inview", activeState, false);
   redBox.addEventListener("inview", animateElem, false);
@@ -13,43 +14,26 @@ function run() {
   window.addEventListener("scroll", function(){inView(redBox);}, false);
 }
 
-function checkCurrentWindow() {
-  //If document is smaller than window
-  var bodyH = parseInt(getComputedStyle(document.body).height, 10);
-  var winH = window.innerHeight || document.documentElement.clientHeight|| document.body.clientHeight;
-        
-  if (winH > bodyH) {
-    newH = winH + 100;
-    document.body.style.height = newH + "px";    
-  }
-}
-
 function animateElem(evt) {
   var elem = evt.currentTarget;  
-  var scrollDir;
-      
-  //Detect scrolling direction
-  var scrollPos = window.pageYOffset || document.documentElement.scrollTop;
+  var scrollDir;  
+  var bodyWidth = document.body.getBoundingClientRect().width;  
     
-  window.addEventListener("scroll", function() {
-    var curr = window.pageYOffset || document.documentElement.scrollTop;
+  var curr = window.pageYOffset || document.documentElement.scrollTop;
+  var leftMargin = (window.scrollX + elem.getBoundingClientRect().left) || (document.documentElement.scrollLeft + elem.getBoundingClientRect().left);
     
-    if ((curr - scrollPos) <= 0) {
-      scrollDir = "up";
-      boxPos > 0 ? boxPos -= 1 : boxPos = 0;      
-      elem.style.transform = "translateX(" + boxPos + "px)";
-    }
-    else if ((curr - scrollPos) >= 0) {
-      scrollDir = "down";      
-      boxPos += 1;          
-      elem.style.transform = "translateX(" + boxPos + "px)";      
-    }
-
-    scrollPos = curr;
-    console.log(boxPos);
-    
-  }, false);
-  
+  if ((curr - scrollPos) <= 0) {
+    scrollDir = "up";
+    curr == 0 ? boxPos = 0 : boxPos -= 5;
+    boxPos > 0 ? boxPos -= 5 : boxPos = 0;      
+  }
+  else if ((curr - scrollPos) >= 0) {
+    scrollDir = "down";
+    boxPos += 5;
+  }
+   
+  elem.style.transform = "translateX(" + boxPos + "px)";
+  scrollPos = curr;  
 }
 
 function inView(elem) {
