@@ -82,19 +82,6 @@ function addClass(elem, myClass) {
   }
 }
 
-function createNewEvent(evtName) {
-  var evt;
-  if (typeof Event === "function") {
-    evt = new Event(evtName);
-  }
-  else {
-    evt = document.createEvent("Event");
-    evt.initEvent(evtName, true, true);
-  }
-  
-  return evt;
-}
-
 function removeClass(elem, myClass) {
   if (elem.classList) {
     elem.classList.remove(myClass);
@@ -122,4 +109,17 @@ function inactiveState(evt) {
   var myClass = "active";
   
   return removeClass(elem, myClass);
+}
+
+function createNewEvent(evtName) {
+  var evt;
+  if (typeof Event === "function") {
+    evt = new Event(evtName);
+  }
+  else {
+    evt = document.createEvent("Event");
+    evt.initEvent(evtName, true, true);
+  }
+  
+  return evt;
 }
