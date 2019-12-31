@@ -47,9 +47,13 @@ h1 {
   width: 100px;
   height: 100px;  
   display: none;
+  position: absolute;
+  left: 999em;
 }
 
 .box.active {
   display: block;
-  position: absolute;
+  left: auto;
+  top: calc(50% - 50px);  
+  position: fixed;
 }
