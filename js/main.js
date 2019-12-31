@@ -13,10 +13,10 @@ var container = document.querySelector(".ani-canvas");
 var leftMargin = container.getBoundingClientRect().left;
 var rightMargin = container.getBoundingClientRect().left;
 
-var leftBoxPos = 0 - leftMargin;
-var rightBoxPos = document.body.clientWidth + greenBox.getBoundingClientRect().width;
+var limit = document.body.offsetWidth / 2;
 
-var limit = document.body.clientWidth / 2;
+var leftBoxPos = 0 - redBox.offsetWidth;
+var rightBoxPos = 0 - greenBox.offsetWidth;
 
 window.addEventListener("load", run, false);
 
@@ -45,16 +45,22 @@ function animateElemToLeft(evt) {
     
   if ((curr - leftBoxStart) <= 0) {
     scrollDir = "up";    
-    leftBoxPos > (0 - leftMargin - elemWidth) ? leftBoxPos -= 20 : leftBoxPos = 0 - leftMargin - elemWidth;      
+    leftBoxPos > (0 - leftMargin - elemWidth) ? leftBoxPos -= 20 : leftBoxPos = 0 - leftMargin - elemWidth;
+    if (elemPos < 0) {
+      removeClass(elem, "active");
+    }
   }
   else if ((curr - leftBoxStart) >= 0) {
     scrollDir = "down";
-    if (elemPos <= (limit - elemWidth)) {
+    if (elemPos < (limit - elemWidth)) {
       leftBoxPos += 20; 
-    }    
+    }
+    else if ((elemPos + elemWidth) > limit) {
+      leftBoxPos = limit - elemWidth;
+    }
   }
   
-  elem.style.transform = "translateX(" + leftBoxPos + "px)";
+  elem.style.left = leftBoxPos + "px";
   leftBoxStart = curr;  
 }
 
@@ -69,40 +75,41 @@ function animateElemToRight(evt) {
     
   if ((curr - rightBoxStart) <= 0) {
     scrollDir = "up";    
-    rightBoxPos += 20;    
+    rightBoxPos -= 20;    
   }
   else if ((curr - rightBoxStart) >= 0) {
     scrollDir = "down";
-    rightBoxPos -= 20;   
+    if (elemPos > limit) {
+      rightBoxPos += 20; 
+    }
+    else if ((elemPos + elemWidth) > limit) {
+      rightBoxPos = limit - elemWidth;
+    }
   }
   
-  console.log(scrollDir);
-  
-  elem.style.transform = "translateX(" + rightBoxPos + "px)";
+  elem.style.right = rightBoxPos + "px";
   rightBoxStart = curr;  
 }
 
 function inView(elem) {
-  var elemPos;
+  var elemPosY;
+  var elemPosX;
   var curr;
   var elemH = parseInt(getComputedStyle(elem).height, 10);
   
-  if (window.scrollY) {
-    elemPos = elem.getBoundingClientRect().top + window.scrollY;
-    curr = window.innerHeight + window.scrollY;
-  }
-  else {
-    elemPos = elem.getBoundingClientRect().top + document.documentElement.scrollTop;
-    curr = window.innerHeight + document.documentElement.scrollTop;
-  }
+  elemPosY = elem.getBoundingClientRect().top + document.documentElement.scrollTop;
+  elemPosX = elem.getBoundingClientRect().left;
+  currWidth = document.body.clientWidt;
+  curr = window.innerHeight + document.documentElement.scrollTop;  
   
-  if (curr > elemPos) {
+  
+  if (curr > elemPosY) {
     //Elem is in the current view    
-    elemPos = elemPos + elemH;
+    elemPosY = elemPosY + elemH;
     
     curr = window.scrollY || document.documentElement.scrollTop;
   }
-  if (elemPos > curr) {
+  if (elemPosY > curr) {    
     var evt = createNewEvent("inview");
     elem.dispatchEvent(evt);
   }
