@@ -25,13 +25,11 @@ function run() {
   inView(greenBox);
   
   redBox.addEventListener("inview", activeState, false);
-  redBox.addEventListener("inview", animateElemToLeft, false);
-  redBox.addEventListener("outofview", inactiveState, false);  
+  redBox.addEventListener("inview", animateElemToLeft, false);  
   window.addEventListener("scroll", function(){inView(redBox);}, false);
   
   greenBox.addEventListener("inview", activeState, false);
-  greenBox.addEventListener("inview", animateElemToRight, false);
-  greenBox.addEventListener("outofview", inactiveState, false);  
+  greenBox.addEventListener("inview", animateElemToRight, false);  
   window.addEventListener("scroll", function(){inView(greenBox);}, false);
 }
 
@@ -95,6 +93,7 @@ function inView(elem) {
   var elemPosY;
   var elemPosX;
   var curr;
+  var evt;
   var elemH = parseInt(getComputedStyle(elem).height, 10);
   
   elemPosY = elem.getBoundingClientRect().top + document.documentElement.scrollTop;
@@ -110,11 +109,11 @@ function inView(elem) {
     curr = window.scrollY || document.documentElement.scrollTop;
   }
   if (elemPosY > curr) {    
-    var evt = createNewEvent("inview");
+    evt = createNewEvent("inview");
     elem.dispatchEvent(evt);
   }
   else {
-    var evt = createNewEvent("outofview");
+    evt = createNewEvent("outofview");
     elem.dispatchEvent(evt);
   }
   
