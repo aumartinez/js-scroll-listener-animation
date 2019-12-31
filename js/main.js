@@ -2,8 +2,14 @@
 
 //Initial states
 var redBox = document.getElementById("redbox");
-var boxPos = 0;
+var greenBox = document.getElementById("greenbox");
+
 var scrollPos = window.pageYOffset || document.documentElement.scrollTop;
+var container = document.querySelector(".ani-canvas");
+var leftMargin = container.getBoundingClientRect().left;
+
+var leftBoxPos = 0 - leftMargin;
+var limit = document.body.clientWidth / 2;
 
 window.addEventListener("load", run, false);
 
@@ -16,22 +22,25 @@ function run() {
 }
 
 function animateElemToLeft(evt) {
-  var elem = evt.currentTarget;  
-  var scrollDir;
+  var elem = evt.currentTarget;
+  var elemWidth = elem.getBoundingClientRect().width;
+  var elemPos = elem.getBoundingClientRect().left;
+  var scrollDir;  
     
   var curr = window.pageYOffset || document.documentElement.scrollTop;  
     
   if ((curr - scrollPos) <= 0) {
-    scrollDir = "up";
-    curr == 0 ? boxPos = 0 : boxPos -= 20;
-    boxPos > 0 ? boxPos -= 20 : boxPos = 0;      
+    scrollDir = "up";    
+    leftBoxPos > (0 - leftMargin - elemWidth) ? leftBoxPos -= 20 : leftBoxPos = 0 - leftMargin - elemWidth;      
   }
   else if ((curr - scrollPos) >= 0) {
     scrollDir = "down";
-    boxPos += 20;
+    if (elemPos <= (limit - elemWidth)) {
+      leftBoxPos += 20; 
+    }    
   }
   
-  elem.style.transform = "translateX(" + boxPos + "px)";
+  elem.style.transform = "translateX(" + leftBoxPos + "px)";
   scrollPos = curr;  
 }
 
@@ -50,8 +59,7 @@ function inView(elem) {
   }
   
   if (curr > elemPos) {
-    //Elem is in the current view
-    addClass(elem, "active"); 
+    //Elem is in the current view    
     elemPos = elemPos + elemH;
     
     curr = window.scrollY || document.documentElement.scrollTop;
