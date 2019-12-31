@@ -4,10 +4,8 @@
 var redBox = document.getElementById("redbox");
 var boxPos = 0;
 var scrollPos = window.pageYOffset || document.documentElement.scrollTop;
-var leftMargin = Math.abs(window.scrollX + redBox.getBoundingClientRect().left) || Math.abs(document.documentElement.scrollLeft + redBox.getBoundingClientRect().left)
 
 window.addEventListener("load", run, false);
-window.addEventListener("resize", function(){ return leftMargin = Math.abs(window.scrollX + redBox.getBoundingClientRect().left) || Math.abs(document.documentElement.scrollLeft + redBox.getBoundingClientRect().left);}, false);
 
 function run() {  
   inView(redBox);
@@ -19,9 +17,7 @@ function run() {
 
 function animateElemToLeft(evt) {
   var elem = evt.currentTarget;  
-  var scrollDir;  
-  var bodyWidth = document.body.getBoundingClientRect().width;
-  var boundary = bodyWidth - elem.getBoundingClientRect().width - (leftMargin * 2);
+  var scrollDir;
     
   var curr = window.pageYOffset || document.documentElement.scrollTop;  
     
@@ -33,10 +29,6 @@ function animateElemToLeft(evt) {
   else if ((curr - scrollPos) >= 0) {
     scrollDir = "down";
     boxPos += 20;
-  }
-  
-  if (boxPos >= boundary) {
-    boxPos = Math.abs(boundary);
   }
   
   elem.style.transform = "translateX(" + boxPos + "px)";
