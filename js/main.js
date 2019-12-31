@@ -4,21 +4,35 @@
 var redBox = document.getElementById("redbox");
 var greenBox = document.getElementById("greenbox");
 
-var scrollPos = window.pageYOffset || document.documentElement.scrollTop;
+var leftBoxStart;
+var rightBoxStart;
+
+leftBoxStart = rightBoxStart = window.pageYOffset || document.documentElement.scrollTop;
+
 var container = document.querySelector(".ani-canvas");
 var leftMargin = container.getBoundingClientRect().left;
+var rightMargin = container.getBoundingClientRect().left;
 
 var leftBoxPos = 0 - leftMargin;
+var rightBoxPos = document.body.clientWidth + greenBox.getBoundingClientRect().width;
+
 var limit = document.body.clientWidth / 2;
 
 window.addEventListener("load", run, false);
 
 function run() {  
   inView(redBox);
+  inView(greenBox);
+  
   redBox.addEventListener("inview", activeState, false);
   redBox.addEventListener("inview", animateElemToLeft, false);
   redBox.addEventListener("outofview", inactiveState, false);  
   window.addEventListener("scroll", function(){inView(redBox);}, false);
+  
+  greenBox.addEventListener("inview", activeState, false);
+  greenBox.addEventListener("inview", animateElemToRight, false);
+  greenBox.addEventListener("outofview", inactiveState, false);  
+  window.addEventListener("scroll", function(){inView(greenBox);}, false);
 }
 
 function animateElemToLeft(evt) {
@@ -29,11 +43,11 @@ function animateElemToLeft(evt) {
     
   var curr = window.pageYOffset || document.documentElement.scrollTop;  
     
-  if ((curr - scrollPos) <= 0) {
+  if ((curr - leftBoxStart) <= 0) {
     scrollDir = "up";    
     leftBoxPos > (0 - leftMargin - elemWidth) ? leftBoxPos -= 20 : leftBoxPos = 0 - leftMargin - elemWidth;      
   }
-  else if ((curr - scrollPos) >= 0) {
+  else if ((curr - leftBoxStart) >= 0) {
     scrollDir = "down";
     if (elemPos <= (limit - elemWidth)) {
       leftBoxPos += 20; 
@@ -41,7 +55,31 @@ function animateElemToLeft(evt) {
   }
   
   elem.style.transform = "translateX(" + leftBoxPos + "px)";
-  scrollPos = curr;  
+  leftBoxStart = curr;  
+}
+
+
+function animateElemToRight(evt) {
+  var elem = evt.currentTarget;
+  var elemWidth = elem.getBoundingClientRect().width;
+  var elemPos = elem.getBoundingClientRect().left;
+  var scrollDir;  
+    
+  var curr = window.pageYOffset || document.documentElement.scrollTop;  
+    
+  if ((curr - rightBoxStart) <= 0) {
+    scrollDir = "up";    
+    rightBoxPos += 20;    
+  }
+  else if ((curr - rightBoxStart) >= 0) {
+    scrollDir = "down";
+    rightBoxPos -= 20;   
+  }
+  
+  console.log(scrollDir);
+  
+  elem.style.transform = "translateX(" + rightBoxPos + "px)";
+  rightBoxStart = curr;  
 }
 
 function inView(elem) {
