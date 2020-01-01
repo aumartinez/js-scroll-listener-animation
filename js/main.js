@@ -47,6 +47,9 @@ function animateElemToLeft(evt) {
     if (elemPos < 0) {
       removeClass(elem, "active");
     }
+    else if (window.pageYOffset == 0) {
+      leftBoxPos = 0 - redBox.offsetWidth;
+    }
   }
   else if ((curr - leftBoxStart) >= 0) {
     scrollDir = "down";
@@ -73,7 +76,10 @@ function animateElemToRight(evt) {
     
   if ((curr - rightBoxStart) <= 0) {
     scrollDir = "up";    
-    rightBoxPos -= 20;    
+    rightBoxPos -= 20;
+    if (window.pageYOffset == 0) {
+      rightBoxPos = 0 - greenBox.offsetWidth;
+    }
   }
   else if ((curr - rightBoxStart) >= 0) {
     scrollDir = "down";
