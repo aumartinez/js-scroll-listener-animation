@@ -9,14 +9,15 @@ var rightBoxStart;
 
 leftBoxStart = rightBoxStart = window.pageYOffset || document.documentElement.scrollTop;
 
+var leftBoxPos = 0 - redBox.offsetWidth;
+var rightBoxPos = 0 - greenBox.offsetWidth;
+
 var container = document.querySelector(".ani-canvas");
 var leftMargin = container.getBoundingClientRect().left;
 var rightMargin = container.getBoundingClientRect().left;
 
 var limit = document.body.offsetWidth / 2;
-
-var leftBoxPos = 0 - redBox.offsetWidth;
-var rightBoxPos = 0 - greenBox.offsetWidth;
+window.addEventListener("resize", () => limit = document.body.offsetWidth / 2, false);
 
 window.addEventListener("load", run, false);
 
@@ -34,7 +35,8 @@ function run() {
 }
 
 function animateElemToLeft(evt) {
-  var elem = evt.currentTarget;
+  
+  var elem = evt.currentTarget;  
   var elemWidth = elem.getBoundingClientRect().width;
   var elemPos = elem.getBoundingClientRect().left;
   var scrollDir;  

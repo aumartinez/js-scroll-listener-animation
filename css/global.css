@@ -23,6 +23,19 @@ h1 {
   background-color: green;
 }
 
+.img-responsive {
+  display: block;
+  max-width: 100%;
+}
+
+.img-center {
+  margin: 0 auto;
+}
+
+.img-rotate180 {
+  transform: rotate(180deg);
+}
+
 .wrapper {
   margin: 60px auto;
   padding: 0 15px;
